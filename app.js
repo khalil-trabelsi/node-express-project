@@ -1,5 +1,5 @@
 var express = require("express");
-
+var fortune = require("./lib/fortune");
 var app = express();
 var handlebars = require("express3-handlebars").create({
   defaultLayout: "main",
@@ -9,21 +9,12 @@ app.set("view engine", "handlebars");
 app.set("port", process.env.PORT || 3000);
 app.use(express.static(__dirname + "/public"));
 
-var fortunes = [
-  "Conquer your fears or they will conquer you.",
-  "Rivers need springs.",
-  "Do not fear what you don't know.",
-  "You will have a pleasant surprise.",
-  "Whenever possible, keep it simple.",
-];
-
 app.get("/", (req, res) => {
   res.render("home");
 });
 
 app.get("/about", (req, res) => {
-  var randomFortune = fortunes[Math.floor(Math.random() * fortunes.length)];
-  res.render("about", { fortune: randomFortune });
+  res.render("about", { fortune: fortune.getFortune() });
 });
 // 404 catch-all handler (middleware)
 
